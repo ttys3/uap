@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -19,6 +20,8 @@ var Version = "dev"
 var CommitSHA = "dev"
 var BuildDate = "unkown"
 
+const appName = "uap-server"
+
 func main() {
 	cli.VersionFlag = &cli.BoolFlag{
 		Name: "version", Aliases: []string{"v"},
@@ -26,7 +29,7 @@ func main() {
 	}
 
 	app := &cli.App{
-		Version: "1.0.0",
+		Version: fmt.Sprintf("%s %s %s %s", appName, Version, CommitSHA, BuildDate),
 		Flags: []cli.Flag {
 			&cli.StringFlag{
 				Name:    "addr",
@@ -53,6 +56,9 @@ func main() {
 }
 
 func run(ctx *cli.Context) error {
+
+	log.Println(ctx.App.Version)
+
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
