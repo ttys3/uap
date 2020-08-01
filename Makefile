@@ -14,7 +14,7 @@ rsrc:
 	command -v rsrc || go get github.com/akavel/rsrc
 
 guest: rsrc
-	rsrc -manifest ./cmd/guest/uap-guest.exe.manifest -o ./cmd/guest/rsrc.syso
+	rsrc -manifest ./cmd/guest/uap-guest.exe.manifest -ico ./cmd/guest/app.ico -o ./cmd/guest/rsrc.syso
 	GOOS=windows GOARCH=amd64 go build -ldflags "$(AUTO_VERSIONING) -H windowsgui" -o $(GUEST_BIN).exe ./cmd/guest/
 
 server:
