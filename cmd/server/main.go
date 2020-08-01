@@ -38,7 +38,7 @@ func main() {
 			&cli.StringFlag{
 				Name:    "auth",
 				Aliases: []string{"p"},
-				Value:   "passw0rd",
+				Value:   ua_proxy.DftPasswd,
 				Usage:   "auth password",
 				EnvVars: []string{"UAP_AUTH"},
 			},

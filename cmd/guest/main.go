@@ -23,7 +23,7 @@ var Version = "dev"
 var CommitSHA = "dev"
 var BuildDate = "unkown"
 
-const appName = "ua-proxy-guest"
+const appName = "uap-guest"
 
 var machine = "unkown"
 
@@ -57,14 +57,14 @@ func main() {
 			&cli.StringFlag{
 				Name:    "auth",
 				Aliases: []string{"p"},
-				Value:   "passw0rd",
+				Value:   ua_proxy.DftPasswd,
 				Usage:   "auth password",
 				EnvVars: []string{"UAP_AUTH"},
 			},
 			&cli.StringFlag{
 				Name:    "url",
 				Aliases: []string{"u"},
-				Value:   "https://github.com/ttys3/ua-proxy",
+				Value:   ua_proxy.RepoURL,
 				Usage:   "url to open",
 				EnvVars: []string{"UAP_URL"},
 			},
