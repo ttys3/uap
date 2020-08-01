@@ -75,7 +75,9 @@ func main() {
 	err := app.Run(os.Args)
 	fmt.Println(err)
 	if err != nil {
-		walk.MsgBox(nil, fmt.Sprintf("%s - %s - %s", "Open URL Failed", appName, Version, CommitSHA, BuildDate), err.Error(), walk.MsgBoxIconInformation)
+		walk.MsgBox(nil, fmt.Sprintf("%s - %s - %s %s %s", "open URL failed",
+			appName, Version, CommitSHA, BuildDate), err.Error(),
+			walk.MsgBoxIconError)
 	}
 }
 
