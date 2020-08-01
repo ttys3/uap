@@ -1,5 +1,5 @@
-GUEST_BIN = uap-guest
-SERVER_BIN= uap-server
+GUEST_BIN = uap
+SERVER_BIN= uapd
 
 PKG_URL := main
 APP_VERSION = $(shell git describe --always --tags --abbrev=0 | tr -d "[v\r\n]")
@@ -14,11 +14,17 @@ rsrc:
 	command -v rsrc || go get github.com/akavel/rsrc
 
 guest: rsrc
-	rsrc -manifest ./cmd/guest/uap-guest.exe.manifest -ico ./cmd/guest/app.ico -o ./cmd/guest/rsrc.syso
-	GOOS=windows GOARCH=amd64 go build -ldflags "$(AUTO_VERSIONING) -H windowsgui" -o $(GUEST_BIN).exe ./cmd/guest/
+	rsrc -manifest ./cmd/guest/uap.exe.manifest -ico ./cmd/guest/app.ico -o ./cmd/guest/rsrc.syso
+	GOOS=windows GOARCH=amd64 go build -ldflags "-s -w $(AUTO_VERSIONING) -H windowsgui" -o $(GUEST_BIN).exe ./cmd/guest/
 
 server:
-	GOOS=linux go build -ldflags "$(AUTO_VERSIONING)" -o $(SERVER_BIN) ./cmd/server/
+	GOOS=linux go build -ldflags "-s -w $(AUTO_VERSIONING)" -o $(SERVER_BIN) ./cmd/server/
+
+install: server
+	sudo cp -v uapd /usr/local/bin/
+	cp -v uapd.service ~/.config/systemd/user/uapd.service
+	systemctl --user enable --now uapd.service
+	systemctl --user status uapd
 
 clean:
 	@rm -f ./cmd/guest/rsrc.syso

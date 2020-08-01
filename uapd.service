@@ -1,0 +1,11 @@
+# put to ~/.config/systemd/user/uapd.service
+[Unit]
+Description=UAP Daemon
+
+[Service]
+Environment="UAP_ADDR=:18080"
+Environment="UAP_AUTH=passw0rd"
+ExecStart=/usr/local/bin/uapd
+
+[Install]
+WantedBy=default.target

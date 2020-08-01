@@ -23,7 +23,7 @@ var Version = "dev"
 var CommitSHA = "dev"
 var BuildDate = "unkown"
 
-const appName = "uap-guest"
+const appName = "uap"
 
 var machine = "unkown"
 

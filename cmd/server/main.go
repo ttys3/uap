@@ -84,7 +84,7 @@ func run(ctx *cli.Context) error {
 		out, err := cmd.CombinedOutput()
 
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{RetCode: 2, Msg: string(out)})
+			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{RetCode: 2, Msg: fmt.Sprintf("err: %s, out=%s", err, string(out))})
 			return
 		}
 		c.JSON(http.StatusOK, ua_proxy.UaProxyRsp{RetCode: 0})
