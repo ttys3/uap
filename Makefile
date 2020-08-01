@@ -21,4 +21,5 @@ server:
 	GOOS=linux go build -ldflags "$(AUTO_VERSIONING)" -o $(SERVER_BIN) ./cmd/server/
 
 clean:
-	@rm -f $(GUEST_BIN) $(SERVER_BIN)
+	@rm -f ./cmd/guest/rsrc.syso
+	@rm -f $(GUEST_BIN) $(GUEST_BIN).exe $(SERVER_BIN)
