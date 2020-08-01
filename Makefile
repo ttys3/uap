@@ -1,5 +1,5 @@
-GUEST_BIN = ua-proxy-guest
-SERVER_BIN= ua-proxy-server
+GUEST_BIN = uap-guest
+SERVER_BIN= uap-server
 
 PKG_URL := main
 APP_VERSION = $(shell git describe --always --tags --abbrev=0 | tr -d "[v\r\n]")
@@ -14,7 +14,7 @@ rsrc:
 	command -v rsrc || go get github.com/akavel/rsrc
 
 guest: rsrc
-	rsrc -manifest ./cmd/guest/ua-proxy-guest.exe.manifest -o ./cmd/guest/rsrc.syso
+	rsrc -manifest ./cmd/guest/uap-guest.exe.manifest -o ./cmd/guest/rsrc.syso
 	GOOS=windows GOARCH=amd64 go build -ldflags "$(AUTO_VERSIONING) -H windowsgui" -o $(GUEST_BIN).exe ./cmd/guest/
 
 server:

@@ -1,0 +1,5 @@
+*.syso
+*.exe
+/uap-guest
+/uap-guest.exe
+/uap-server
