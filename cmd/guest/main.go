@@ -16,7 +16,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	ua_proxy "github.com/ttys3/ua-proxy"
+	ua_proxy "github.com/ttys3/uap"
 )
 
 var Version = "dev"

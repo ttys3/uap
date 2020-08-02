@@ -1,4 +1,4 @@
-package ua_proxy
+package uap
 
 import (
 	"errors"
@@ -8,7 +8,7 @@ import (
 
 const DftPasswd = "passw0rd"
 
-const RepoURL = "https://github.com/ttys3/ua-proxy"
+const RepoURL = "https://github.com/ttys3/uap"
 
 var ErrUnsupportedProto = errors.New("unsupported protocol")
 

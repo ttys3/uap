@@ -4,5 +4,6 @@
 /uap.exe
 /uapd
 /uapd.exe
-*.tar.gz2
+*.tar.gz
+*.tar.bz2
 *.zip

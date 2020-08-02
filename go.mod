@@ -1,4 +1,4 @@
-module github.com/ttys3/ua-proxy
+module github.com/ttys3/uap
 
 go 1.14
 
