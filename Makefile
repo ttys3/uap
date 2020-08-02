@@ -26,6 +26,13 @@ install: server
 	systemctl --user enable --now uapd.service
 	systemctl --user status uapd
 
+lint:
+	golangci-lint run -v
+
+fmt:
+	gofmt -w -s -d .
+	go vet "./..."
+
 clean:
 	@rm -f ./cmd/guest/rsrc.syso
 	@rm -f $(GUEST_BIN) $(GUEST_BIN).exe $(SERVER_BIN)

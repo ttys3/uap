@@ -1,15 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
-	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/urfave/cli/v2"
 
@@ -65,11 +65,9 @@ func run(ctx *cli.Context) error {
 	r.POST("/open", func(c *gin.Context) {
 		var req ua_proxy.UaProxyReq
 		c.BindJSON(&req)
-		if req.Url == "" ||
-			(!strings.HasPrefix(req.Url, "ftp") &&
-				!strings.HasPrefix(req.Url, "http") &&
-				!strings.HasPrefix(req.Url, "https")) {
-			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: 1, Msg: "invalid protocol"})
+
+		if err := req.ValidateURL(); err != nil {
+			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: 1, Msg: err.Error()})
 			return
 		}
 
@@ -84,7 +82,10 @@ func run(ctx *cli.Context) error {
 		out, err := cmd.CombinedOutput()
 
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{RetCode: 2, Msg: fmt.Sprintf("err: %s, out=%s", err, string(out))})
+			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{
+				RetCode: 2,
+				Msg: fmt.Sprintf("err: %s, out=%s", err, string(out)),
+			})
 			return
 		}
 		c.JSON(http.StatusOK, ua_proxy.UaProxyRsp{RetCode: 0})
