@@ -11,6 +11,14 @@ const RepoURL = "https://github.com/ttys3/ua-proxy"
 
 var ErrUnsupportedProto = errors.New("unsupported protocol")
 
+const (
+	RetCodeOK = iota
+	RetCodeInvalidReq
+	RetCodeInvalidURL
+	RetCodeAuthFailed
+	RetCodeExecFailed
+)
+
 var supportedProtos = map[string]bool{
 	"http":   true,
 	"https":  true,
@@ -29,15 +37,15 @@ var supportedProtos = map[string]bool{
 }
 
 type UaProxyReq struct {
-	Auth        string
-	FromMachine string
-	Url         string
-	ReqTs       int64
+	Auth        string `json: "auth"`
+	FromMachine string `json: "from_machine"`
+	Url         string `json: "url"`
+	ReqTs       int64  `json: "req_ts"`
 }
 
 type UaProxyRsp struct {
-	RetCode int
-	Msg     string
+	RetCode int    `json: "ret_code"`
+	Msg     string `json: "msg"`
 }
 
 func (r *UaProxyReq) ValidateURL() error {

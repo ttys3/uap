@@ -121,7 +121,7 @@ func sendUrl(c *cli.Context) error {
 	if err := json.Unmarshal(body, &rsp); err != nil {
 		return err
 	}
-	if rsp.RetCode != 0 {
+	if rsp.RetCode != ua_proxy.RetCodeOK {
 		return fmt.Errorf("err: %s", rsp.Msg)
 	}
 	return nil

@@ -64,15 +64,20 @@ func run(ctx *cli.Context) error {
 
 	r.POST("/open", func(c *gin.Context) {
 		var req ua_proxy.UaProxyReq
-		c.BindJSON(&req)
+		if err := c.BindJSON(&req); err != nil {
+			log.Printf("invalid req param, req=%+v err=%s", req, err.Error())
+			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeInvalidReq, Msg: err.Error()})
+			return
+		}
 
 		if err := req.ValidateURL(); err != nil {
-			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: 1, Msg: err.Error()})
+			log.Printf("url validate failed, url=%s err=%s", req.Url, err.Error())
+			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeInvalidURL, Msg: err.Error()})
 			return
 		}
 
 		if req.Auth != ctx.String("auth") {
-			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: 1, Msg: "auth failed"})
+			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeAuthFailed, Msg: "auth failed"})
 			return
 		}
 
@@ -83,12 +88,12 @@ func run(ctx *cli.Context) error {
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{
-				RetCode: 2,
+				RetCode: ua_proxy.RetCodeExecFailed,
 				Msg:     fmt.Sprintf("err: %s, out=%s", err, string(out)),
 			})
 			return
 		}
-		c.JSON(http.StatusOK, ua_proxy.UaProxyRsp{RetCode: 0})
+		c.JSON(http.StatusOK, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeOK})
 	})
 
 	withPwdEn := ""
