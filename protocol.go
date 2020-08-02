@@ -2,6 +2,7 @@ package ua_proxy
 
 import (
 	"errors"
+	"fmt"
 	"net/url"
 )
 
@@ -54,7 +55,7 @@ func (r *UaProxyReq) ValidateURL() error {
 		return err
 	}
 	if _, ok := supportedProtos[u.Scheme]; !ok {
-		return ErrUnsupportedProto
+		return fmt.Errorf("%w: %s", ErrUnsupportedProto, u.Scheme)
 	}
 	return nil
 }

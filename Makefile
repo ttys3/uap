@@ -21,6 +21,7 @@ server:
 	GOOS=linux go build -ldflags "-s -w $(AUTO_VERSIONING)" -o $(SERVER_BIN) ./cmd/server/
 
 install: server
+	systemctl --user stop uapd.service
 	sudo cp -v uapd /usr/local/bin/
 	cp -v uapd.service ~/.config/systemd/user/uapd.service
 	systemctl --user enable --now uapd.service

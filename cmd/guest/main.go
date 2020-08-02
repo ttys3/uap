@@ -122,7 +122,7 @@ func sendUrl(c *cli.Context) error {
 		return err
 	}
 	if rsp.RetCode != ua_proxy.RetCodeOK {
-		return fmt.Errorf("err: %s", rsp.Msg)
+		return fmt.Errorf("%s", rsp.Msg)
 	}
 	return nil
 }
