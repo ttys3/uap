@@ -22,10 +22,14 @@ server:
 
 install: server
 	systemctl --user stop uapd.service
-	sudo cp -v uapd /usr/local/bin/
-	cp -v uapd.service ~/.config/systemd/user/uapd.service
+	sudo cp -v ./uapd /usr/local/bin/
+	cp -v ./uapd.service ~/.config/systemd/user/uapd.service
 	systemctl --user enable --now uapd.service
 	systemctl --user status uapd
+
+pack:
+	tar cvjf $(SERVER_BIN)-$(APP_VERSION).tar.bz2 $(SERVER_BIN) $(SERVER_BIN).service Makefile
+	zip -r $(GUEST_BIN)-$(APP_VERSION).zip $(GUEST_BIN).exe ./windows
 
 lint:
 	golangci-lint run -v
@@ -37,3 +41,5 @@ fmt:
 clean:
 	@rm -f ./cmd/guest/rsrc.syso
 	@rm -f $(GUEST_BIN) $(GUEST_BIN).exe $(SERVER_BIN)
+	@rm -f $(SERVER_BIN)*.tar.bz2
+	@rm -f $(GUEST_BIN)*.zip
