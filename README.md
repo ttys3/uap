@@ -19,4 +19,4 @@ open setup.bat change `UAP_AUTH` to the same as `uapd`
 run setup.bat
 run clients.reg,  registered.reg,  UAPHTML.reg
 
-`Settings` -  `Default Apps` - `Web Browser` - select `UAP guest`
+`Settings` -  `Default Apps` - `Web Browser` - select `UAP Explorer`
