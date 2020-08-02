@@ -30,7 +30,7 @@ func main() {
 
 	app := &cli.App{
 		Version: fmt.Sprintf("%s %s %s %s", appName, Version, CommitSHA, BuildDate),
-		Flags: []cli.Flag {
+		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "addr",
 				Aliases: []string{"a"},
@@ -46,7 +46,7 @@ func main() {
 				EnvVars: []string{"UAP_AUTH"},
 			},
 		},
-		Action:run,
+		Action: run,
 	}
 
 	err := app.Run(os.Args)
@@ -76,7 +76,7 @@ func run(ctx *cli.Context) error {
 			return
 		}
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second * 3)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 		defer cancel()
 		cmd := exec.CommandContext(ctx, "xdg-open", req.Url)
 		out, err := cmd.CombinedOutput()
@@ -84,7 +84,7 @@ func run(ctx *cli.Context) error {
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{
 				RetCode: 2,
-				Msg: fmt.Sprintf("err: %s, out=%s", err, string(out)),
+				Msg:     fmt.Sprintf("err: %s, out=%s", err, string(out)),
 			})
 			return
 		}

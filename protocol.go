@@ -12,19 +12,19 @@ const RepoURL = "https://github.com/ttys3/ua-proxy"
 var ErrUnsupportedProto = errors.New("unsupported protocol")
 
 var supportedProtos = map[string]bool{
-	"http": true,
-	"https": true,
-	"ftp": true,
-	"irc": true,
+	"http":   true,
+	"https":  true,
+	"ftp":    true,
+	"irc":    true,
 	"mailto": true,
-	"mms": true,
-	"news": true,
-	"nntp": true,
-	"sms": true,
-	"smsto": true,
-	"snews": true,
-	"tel": true,
-	"urn": true,
+	"mms":    true,
+	"news":   true,
+	"nntp":   true,
+	"sms":    true,
+	"smsto":  true,
+	"snews":  true,
+	"tel":    true,
+	"urn":    true,
 	"webcal": true,
 }
 

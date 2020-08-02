@@ -6,9 +6,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -47,7 +47,7 @@ func init() {
 
 func main() {
 	app := &cli.App{
-		Flags: []cli.Flag {
+		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "host",
 				Value:   "",
@@ -97,10 +97,10 @@ func sendUrl(c *cli.Context) error {
 
 	auth := c.String("auth")
 	reqBody, err := json.Marshal(ua_proxy.UaProxyReq{
-		Auth: auth,
+		Auth:        auth,
 		FromMachine: machine,
-		Url: urlToOpen,
-		ReqTs: time.Now().Unix(),
+		Url:         urlToOpen,
+		ReqTs:       time.Now().Unix(),
 	})
 	if err != nil {
 		return err
