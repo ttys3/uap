@@ -36,7 +36,7 @@ func init() {
 		machine = m
 	}
 	netClient = &http.Client{
-		Timeout: time.Second * 2,
+		Timeout: time.Second * 3,
 		Transport: &http.Transport{
 			DialContext: (&net.Dialer{
 				Timeout: 1 * time.Second,

@@ -81,11 +81,12 @@ func run(ctx *cli.Context) error {
 			return
 		}
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
 		defer cancel()
 		cmd := exec.CommandContext(ctx, "xdg-open", req.Url)
 		out, err := cmd.CombinedOutput()
 
+		log.Printf("exec %+v, err=%v, out=%v ", cmd, err, string(out))
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, uap.UaProxyRsp{
 				RetCode: uap.RetCodeExecFailed,
