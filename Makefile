@@ -28,7 +28,7 @@ install: server
 	systemctl --user status uapd
 
 pack:
-	tar cvjf $(SERVER_BIN)-$(APP_VERSION).tar.bz2 $(SERVER_BIN) $(SERVER_BIN).service Makefile
+	tar cvjf $(SERVER_BIN)-$(APP_VERSION).tar.bz2 $(SERVER_BIN) $(SERVER_BIN).service install.sh
 	zip -r $(GUEST_BIN)-$(APP_VERSION).zip $(GUEST_BIN).exe ./windows
 
 lint:
