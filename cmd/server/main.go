@@ -13,7 +13,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	ua_proxy "github.com/ttys3/uap"
+	"github.com/ttys3/uap"
 )
 
 var Version = "dev"
@@ -41,7 +41,7 @@ func main() {
 			&cli.StringFlag{
 				Name:    "auth",
 				Aliases: []string{"p"},
-				Value:   ua_proxy.DftPasswd,
+				Value:   uap.DftPasswd,
 				Usage:   "auth password",
 				EnvVars: []string{"UAP_AUTH"},
 			},
@@ -63,21 +63,21 @@ func run(ctx *cli.Context) error {
 	r.Use(gin.Logger(), gin.Recovery())
 
 	r.POST("/open", func(c *gin.Context) {
-		var req ua_proxy.UaProxyReq
+		var req uap.UaProxyReq
 		if err := c.BindJSON(&req); err != nil {
 			log.Printf("invalid req param, req=%+v err=%s", req, err.Error())
-			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeInvalidReq, Msg: err.Error()})
+			c.JSON(http.StatusBadRequest, uap.UaProxyRsp{RetCode: uap.RetCodeInvalidReq, Msg: err.Error()})
 			return
 		}
 
 		if err := req.ValidateURL(); err != nil {
 			log.Printf("url validate failed, url=%s err=%s", req.Url, err.Error())
-			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeInvalidURL, Msg: err.Error()})
+			c.JSON(http.StatusBadRequest, uap.UaProxyRsp{RetCode: uap.RetCodeInvalidURL, Msg: err.Error()})
 			return
 		}
 
 		if req.Auth != ctx.String("auth") {
-			c.JSON(http.StatusBadRequest, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeAuthFailed, Msg: "auth failed"})
+			c.JSON(http.StatusBadRequest, uap.UaProxyRsp{RetCode: uap.RetCodeAuthFailed, Msg: "auth failed"})
 			return
 		}
 
@@ -87,13 +87,13 @@ func run(ctx *cli.Context) error {
 		out, err := cmd.CombinedOutput()
 
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, ua_proxy.UaProxyRsp{
-				RetCode: ua_proxy.RetCodeExecFailed,
+			c.JSON(http.StatusInternalServerError, uap.UaProxyRsp{
+				RetCode: uap.RetCodeExecFailed,
 				Msg:     fmt.Sprintf("err: %s, out=%s", err, string(out)),
 			})
 			return
 		}
-		c.JSON(http.StatusOK, ua_proxy.UaProxyRsp{RetCode: ua_proxy.RetCodeOK})
+		c.JSON(http.StatusOK, uap.UaProxyRsp{RetCode: uap.RetCodeOK})
 	})
 
 	withPwdEn := ""

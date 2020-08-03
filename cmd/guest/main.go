@@ -6,17 +6,18 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/lxn/walk"
-	. "github.com/lxn/walk/declarative"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+
 	"github.com/urfave/cli/v2"
 
-	ua_proxy "github.com/ttys3/uap"
+	"github.com/ttys3/uap"
 )
 
 var Version = "dev"
@@ -57,14 +58,14 @@ func main() {
 			&cli.StringFlag{
 				Name:    "auth",
 				Aliases: []string{"p"},
-				Value:   ua_proxy.DftPasswd,
+				Value:   uap.DftPasswd,
 				Usage:   "auth password",
 				EnvVars: []string{"UAP_AUTH"},
 			},
 			&cli.StringFlag{
 				Name:    "url",
 				Aliases: []string{"u"},
-				Value:   ua_proxy.RepoURL,
+				Value:   uap.RepoURL,
 				Usage:   "url to open",
 				EnvVars: []string{"UAP_URL"},
 			},
@@ -96,7 +97,7 @@ func sendUrl(c *cli.Context) error {
 	}
 
 	auth := c.String("auth")
-	reqBody, err := json.Marshal(ua_proxy.UaProxyReq{
+	reqBody, err := json.Marshal(uap.UaProxyReq{
 		Auth:        auth,
 		FromMachine: machine,
 		Url:         urlToOpen,
@@ -117,11 +118,11 @@ func sendUrl(c *cli.Context) error {
 		return err
 	}
 	fmt.Println(string(body))
-	var rsp ua_proxy.UaProxyRsp
+	var rsp uap.UaProxyRsp
 	if err := json.Unmarshal(body, &rsp); err != nil {
 		return err
 	}
-	if rsp.RetCode != ua_proxy.RetCodeOK {
+	if rsp.RetCode != uap.RetCodeOK {
 		return fmt.Errorf("%s", rsp.Msg)
 	}
 	return nil
