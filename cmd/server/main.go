@@ -59,6 +59,18 @@ func run(ctx *cli.Context) error {
 
 	log.Println(ctx.App.Version)
 
+	// xdg-open will cal DE open command like gio, and gio may failed with: Error: no DISPLAY environment variable specified
+	// but xdg-open will result with exit code 0
+	// here we exit and leave systemd restart the app so that we can ensure the DISPLAY environment is set
+	if dp := os.Getenv("DISPLAY"); dp == "" {
+		// https://wiki.archlinux.org/index.php/Systemd/User#DISPLAY_and_XAUTHORITY
+		// https://github.com/systemd/systemd/blob/v229/xorg/50-systemd-user.sh
+		//exec.Command("systemctl", "--user", "import-environment", "DISPLAY", "XAUTHORITY")
+		//exec.Command("dbus-update-activation-environment", "DISPLAY", "XAUTHORITY")
+		// exit and leave systemd restart the app
+		log.Fatalf("DISPLAY environment is not set, exit ...")
+	}
+
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
